@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		940A1AC81DDA4E5200F0C275 /* AlertCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940A1AC71DDA4E5200F0C275 /* AlertCoordinator.swift */; };
 		94EF3DFD1D752F50005FACC9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EF3DFC1D752F50005FACC9 /* AppDelegate.swift */; };
 		94EF3DFF1D752F50005FACC9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EF3DFE1D752F50005FACC9 /* ViewController.swift */; };
 		94EF3E021D752F50005FACC9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94EF3E001D752F50005FACC9 /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		940A1AC71DDA4E5200F0C275 /* AlertCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertCoordinator.swift; sourceTree = "<group>"; };
 		94EF3DF91D752F50005FACC9 /* Alerts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Alerts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94EF3DFC1D752F50005FACC9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94EF3DFE1D752F50005FACC9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				94EF3DFC1D752F50005FACC9 /* AppDelegate.swift */,
+				940A1AC71DDA4E5200F0C275 /* AlertCoordinator.swift */,
 				94EF3DFE1D752F50005FACC9 /* ViewController.swift */,
 				94EF3E001D752F50005FACC9 /* Main.storyboard */,
 				94EF3E061D752F50005FACC9 /* Assets.xcassets */,
@@ -263,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94EF3DFF1D752F50005FACC9 /* ViewController.swift in Sources */,
+				940A1AC81DDA4E5200F0C275 /* AlertCoordinator.swift in Sources */,
 				94EF3DFD1D752F50005FACC9 /* AppDelegate.swift in Sources */,
 				94EF3E051D752F50005FACC9 /* Alerts.xcdatamodeld in Sources */,
 			);
