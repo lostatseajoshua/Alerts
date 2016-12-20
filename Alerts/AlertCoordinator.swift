@@ -21,7 +21,7 @@ class AlertCoordinator: NSObject {
     static let main = AlertCoordinator()
     
     /// Push an alert to the queue
-    func queue(alert: Alert, atIndex index: Int? = nil) {
+    func enqueue(alert: Alert, atIndex index: Int? = nil) {
         switch alert.prority {
         case .high:
             highPriorityQueue.insert(alert, at: index ?? highPriorityQueue.endIndex)
@@ -101,7 +101,7 @@ class AlertCoordinator: NSObject {
     }
     
     private func putBack(_ alert: Alert) {
-        queue(alert: alert, atIndex: 0)
+        enqueue(alert: alert, atIndex: 0)
     }
     
     private func present(_ alert: Alert) {
