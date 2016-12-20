@@ -152,14 +152,13 @@ class Alert {
         return prority != .high
     }
     
-     lazy var alertController: UIAlertController = {
+    lazy var alertController: UIAlertController = {
         let alertController = UIAlertController(title: self.title, message: self.message, preferredStyle: .alert)
         
         // loop through actions and add to alert controller
         if let actions = self.actions {
             for action in actions {
                 let alertAction = UIAlertAction(title: action.title, style: action.style, handler: action.actionHandler)
-                
                 alertController.addAction(alertAction)
                 
                 if action.preferred {
@@ -194,14 +193,16 @@ class Alert {
     }
 }
 
-/// Constructor for an action to give to an `Alert` class
-/// - important: fire `AlertAction.complete()` when your custom action handler is complete
+/**
+ Constructor for an action to add to an `Alert`
+ - important: fire `AlertAction.complete()` when your custom action handler is complete
+ */
 struct AlertAction {
     let title: String
     let style: UIAlertActionStyle
-    var actionHandler: ((UIAlertAction) -> Void)?
+    private(set) var actionHandler: ((UIAlertAction) -> Void)?
     let preferred: Bool
-
+    
     init(title: String, style: UIAlertActionStyle, preferred: Bool = false, completeOnDismiss: Bool = true, actionHandler: ((UIAlertAction) -> Void)? = nil) {
         self.title = title
         self.style = style
@@ -214,7 +215,9 @@ struct AlertAction {
         }
     }
     
-    /// Completes the Alert Action and notifies the `AlertCoordinator` of the completed action
+    /**
+     Completes the Alert Action and notifies the `AlertCoordinator` of the completed action
+     */
     static func complete() {
         AlertCoordinator.main.onCurrentAlertDismissed()
     }
