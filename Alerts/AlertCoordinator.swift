@@ -33,7 +33,6 @@ class AlertCoordinator: NSObject {
     }
     
     func display() {
-        dequeueAlert()
         if !paused {
             dequeueAlert()
         }
@@ -52,7 +51,7 @@ class AlertCoordinator: NSObject {
     
     fileprivate func onCurrentAlertDismissed() {
         currentDisplayingAlert = nil
-        dequeueAlert()
+        display()
     }
     
     private func nextAlert() -> Alert? {
