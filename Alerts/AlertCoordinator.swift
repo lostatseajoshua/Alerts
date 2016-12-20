@@ -113,6 +113,32 @@ class AlertCoordinator: NSObject {
             self.currentDisplayingAlert = alert
         }
     }
+    
+    override var description: String {
+        let displaying: String
+        
+        if currentDisplayingAlert != nil {
+            displaying = "is displaying"
+        } else {
+            displaying = "is not displaying"
+        }
+        let numOfAlert = highPriorityQueue.count + defaultPriorityQueue.count + lowPriorityQueue.count
+        
+        
+        return "Alert Coordinator is " + displaying + "an alert with \(numOfAlert) alerts queued."
+    }
+    
+    override var debugDescription: String {
+        let displaying: String
+        
+        if currentDisplayingAlert != nil {
+            displaying = "is displaying"
+        } else {
+            displaying = "is not displaying"
+        }
+        
+        return "Alert Coordinator is " + displaying + "an alert with \(highPriorityQueue.count) hight alerts, \(defaultPriorityQueue.count) default alerts, and \(lowPriorityQueue.count) low alerts queued."
+    }
 }
 
 /// Class to construct an alert to be queued for the `AlertCoordinator` to present. Alert adds prority to have high alerts dismiss lower priorty alerts and queue them for a later time.
