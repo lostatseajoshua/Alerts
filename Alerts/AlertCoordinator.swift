@@ -220,4 +220,8 @@ struct AlertAction {
     static func complete() {
         AlertCoordinator.main.onCurrentAlertDismissed()
     }
+    
+    static func defaultAction() -> AlertAction {
+        return AlertAction(title: "Okay", style: .default)
+    }
 }
