@@ -18,7 +18,7 @@ class AlertCoordinator: NSObject {
 
     private weak var currentDisplayingAlert: Alert? = nil
     
-    static let sharedInstance = AlertCoordinator()
+    static let main = AlertCoordinator()
     
     /// Push an alert to the queue
     func queue(alert: Alert, atIndex index: Int? = nil) {
@@ -191,6 +191,6 @@ struct AlertAction {
     
     /// Completes the Alert Action and notifies the `AlertCoordinator` of the completed action
     static func complete() {
-        AlertCoordinator.sharedInstance.onCurrentAlertDismissed()
+        AlertCoordinator.main.onCurrentAlertDismissed()
     }
 }
