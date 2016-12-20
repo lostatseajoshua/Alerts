@@ -25,7 +25,7 @@ class AlertCoordinator: NSObject {
         switch alert.prority {
         case .high:
             highPriorityQueue.insert(alert, at: index ?? highPriorityQueue.endIndex)
-        case .meduim:
+        case .medium:
             defaultPriorityQueue.insert(alert, at: index ?? defaultPriorityQueue.endIndex)
         case .low:
             lowPriorityQueue.insert(alert, at: index ?? lowPriorityQueue.endIndex)
@@ -152,7 +152,7 @@ class Alert {
     enum Priorty {
         case high
         /// Default priorty
-        case meduim
+        case medium
         case low
     }
     
