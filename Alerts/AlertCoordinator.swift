@@ -180,11 +180,10 @@ class Alert {
         case low
     }
     
-    init(title: String?, message: String?, priorty: Priorty = .low, alertActions: [AlertAction]?) {
+    init(title: String?, message: String?, priorty: Priorty = .medium, alertActions: [AlertAction]?) {
         self.title = title
         self.message = message
         self.prority = priorty
-        
         self.actions = alertActions
     }
     
