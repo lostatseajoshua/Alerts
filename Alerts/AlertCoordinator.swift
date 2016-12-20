@@ -14,9 +14,9 @@ class AlertCoordinator: NSObject {
     private(set) var highPriorityQueue = [Alert]()
     private(set) var defaultPriorityQueue = [Alert]()
     private(set) var lowPriorityQueue = [Alert]()
+    private(set) var paused = false
 
     private weak var currentDisplayingAlert: Alert? = nil
-    private(set) var paused = false
     
     static let sharedInstance = AlertCoordinator()
     
@@ -34,6 +34,13 @@ class AlertCoordinator: NSObject {
     
     func display() {
         dequeueAlert()
+        if !paused {
+            dequeueAlert()
+        }
+    }
+    
+    func pause() {
+        paused = true
     }
     
     func reset() {
