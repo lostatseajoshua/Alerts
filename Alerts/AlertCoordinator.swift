@@ -218,7 +218,10 @@ class Alert {
      - important: it is important to call `AlertAction.complete()` on manual of an alert to keep the AlertCoordinator in sync when not using this method. This method does it automatically on completion.
      */
     func dismiss(_ animated: Bool, completion: (() -> Void)?) {
-        alertController.dismiss(animated: true, completion: completion)
+        alertController.dismiss(animated: true) {
+            completion?()
+            AlertAction.complete()
+        }
     }
 }
 
