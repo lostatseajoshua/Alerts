@@ -21,14 +21,14 @@ class AlertCoordinator: NSObject {
     private(set) var defaultPriorityQueue = [Alert]()
     private(set) var lowPriorityQueue = [Alert]()
     private(set) var paused = false
-
+ 
     private weak var currentDisplayingAlert: Alert? = nil
     
     static let main = AlertCoordinator()
     
     /// Push an alert to the queue
     func enqueue(alert: Alert, atIndex index: Int? = nil) {
-        switch alert.prority {
+        switch alert.priority {
         case .high:
             highPriorityQueue.insert(alert, at: index ?? highPriorityQueue.endIndex)
         case .medium:
@@ -154,8 +154,8 @@ class AlertCoordinator: NSObject {
 class Alert {
     let title: String?
     let message: String?
-    let prority: Priorty
     var actions: [AlertAction]?
+    let priority: Priority
     
     fileprivate var dismissable: Bool {
         return prority != .high
@@ -182,7 +182,7 @@ class Alert {
         return alertController
     }()
     
-    enum Priorty {
+    enum Priority {
         case high
         /// Default priorty
         case medium
@@ -199,10 +199,11 @@ class Alert {
         - style: The style to use when presenting the alert controller. Use this parameter to configure the alert controller as an action sheet or as a modal alert.
         - alertActions: Adds actions
     */
+    init(title: String?, message: String?, priority: Priority = .medium, style: UIAlertControllerStyle = .alert, alertActions: [AlertAction]?) {
         self.title = title
         self.message = message
-        self.prority = priorty
         self.actions = alertActions
+        self.priority = priority
     }
     
     /**

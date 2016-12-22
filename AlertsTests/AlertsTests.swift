@@ -24,7 +24,7 @@ class AlertsTests: XCTestCase {
     }
     
     func testHighAlertQueue() {
-        let alert = Alert(title: "High", message: "Message", priorty: .high, alertActions: nil)
+        let alert = Alert(title: "High", message: "Message", priority: .high, alertActions: nil)
         AlertCoordinator.main.enqueue(alert: alert)
         XCTAssertEqual(AlertCoordinator.main.highPriorityQueue.count, 1)
         XCTAssertEqual(AlertCoordinator.main.defaultPriorityQueue.count, 0)
@@ -32,7 +32,7 @@ class AlertsTests: XCTestCase {
     }
     
     func testDefaultAlertQueue() {
-        let alert = Alert(title: "Default", message: "Message", priorty: .medium, alertActions: nil)
+        let alert = Alert(title: "Default", message: "Message", priority: .medium, alertActions: nil)
         AlertCoordinator.main.enqueue(alert: alert)
         XCTAssertEqual(AlertCoordinator.main.highPriorityQueue.count, 0)
         XCTAssertEqual(AlertCoordinator.main.defaultPriorityQueue.count, 1)
@@ -40,7 +40,7 @@ class AlertsTests: XCTestCase {
     }
     
     func testLowAlertQueue() {
-        let alert = Alert(title: "Low", message: "Message", priorty: .low, alertActions: nil)
+        let alert = Alert(title: "Low", message: "Message", priority: .low, alertActions: nil)
         AlertCoordinator.main.enqueue(alert: alert)
         XCTAssertEqual(AlertCoordinator.main.highPriorityQueue.count, 0)
         XCTAssertEqual(AlertCoordinator.main.defaultPriorityQueue.count, 0)
@@ -48,7 +48,7 @@ class AlertsTests: XCTestCase {
     }
     
     func testResetOfAlertCoordinator() {
-        let alert = Alert(title: "Default", message: "Message", priorty: .medium, alertActions: nil)
+        let alert = Alert(title: "Default", message: "Message", priority: .medium, alertActions: nil)
         AlertCoordinator.main.enqueue(alert: alert)
         XCTAssertEqual(AlertCoordinator.main.defaultPriorityQueue.count, 1)
         AlertCoordinator.main.reset()
