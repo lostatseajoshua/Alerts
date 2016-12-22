@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         for i in 0...5 {
             let alert = Alert(title: "\(i)", message: "", alertActions: nil)
             alert.actions = [AlertAction(title: "Ok", style: .default, actionHandler: nil)]
-            alert.actions?.append(dispatchAction)
+            alert.actions.append(dispatchAction)
             
             AlertCoordinator.main.enqueue(alert: alert)
         }
