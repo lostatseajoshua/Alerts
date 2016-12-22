@@ -155,14 +155,15 @@ class Alert {
     let title: String?
     let message: String?
     let priority: Priority
+    let style: UIAlertControllerStyle
     var actions = [AlertAction]()
     
     fileprivate var dismissable: Bool {
-        return prority != .high
+        return priority != .high
     }
     
     lazy var alertController: UIAlertController = {
-        let alertController = UIAlertController(title: self.title, message: self.message, preferredStyle: .alert)
+        let alertController = UIAlertController(title: self.title, message: self.message, preferredStyle: self.style)
         
         // loop through actions and add to alert controller
         if !self.actions.isEmpty {
@@ -202,11 +203,11 @@ class Alert {
     init(title: String?, message: String?, priority: Priority = .medium, style: UIAlertControllerStyle = .alert, alertActions: [AlertAction]?) {
         self.title = title
         self.message = message
-        self.actions = alertActions
         self.priority = priority
         if let actions = alertActions {
             self.actions = actions
         }
+        self.style = style
     }
     
     /**
