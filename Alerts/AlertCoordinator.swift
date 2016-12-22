@@ -154,8 +154,8 @@ class AlertCoordinator: NSObject {
 class Alert {
     let title: String?
     let message: String?
-    var actions: [AlertAction]?
     let priority: Priority
+    var actions = [AlertAction]()
     
     fileprivate var dismissable: Bool {
         return prority != .high
@@ -165,8 +165,8 @@ class Alert {
         let alertController = UIAlertController(title: self.title, message: self.message, preferredStyle: .alert)
         
         // loop through actions and add to alert controller
-        if let actions = self.actions {
-            for action in actions {
+        if !self.actions.isEmpty {
+            for action in self.actions {
                 let alertAction = UIAlertAction(title: action.title, style: action.style, handler: action.actionHandler)
                 alertController.addAction(alertAction)
                 
@@ -204,6 +204,9 @@ class Alert {
         self.message = message
         self.actions = alertActions
         self.priority = priority
+        if let actions = alertActions {
+            self.actions = actions
+        }
     }
     
     /**
