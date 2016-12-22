@@ -9,7 +9,13 @@
 import Foundation
 import UIKit
 
-/// Coordinator for displaying multiple alerts to the foreground. Only one alert can display at any given time. The `AlertCoordinator` queues the alerts to display them after activity
+/**
+ The AlertCoordinator class is used to enqueue `Alert`s to display. The `main` instance of this class is to be used.
+ 
+ The AlertCoorinator enqueues `Alert` type instances to display by enqueuing each by priority. The alerts are placed in a First In First Out collection organized by the alert's priority property.
+ 
+ To use this class enqueue the alerts desired and then call the `display` method to begin the process of displaying the alerts. Use the `pause` method to temporarily hold back alerts from displaying. To tear down the class call the `reset` method and the queue will be emptied.
+ */
 class AlertCoordinator: NSObject {
     private(set) var highPriorityQueue = [Alert]()
     private(set) var defaultPriorityQueue = [Alert]()
@@ -32,6 +38,7 @@ class AlertCoordinator: NSObject {
         }
     }
     
+    /// Show alerts if any are available and the cooridnator is not paused.
     func display() {
         if !paused {
             dequeueAlert()
@@ -42,6 +49,7 @@ class AlertCoordinator: NSObject {
         paused = true
     }
     
+    /// Dismiss any actively displaying alert and remove all from the queue.
     func reset() {
         removeCurrentDisplayingAlert(force: true, completion: nil)
         highPriorityQueue.removeAll()
@@ -70,7 +78,6 @@ class AlertCoordinator: NSObject {
         return nil
     }
     
-    /// Pop an alert off of the queue and display if it can
     private func dequeueAlert() {
         guard let alert = nextAlert() else {
             return
@@ -104,7 +111,7 @@ class AlertCoordinator: NSObject {
     }
     
     private func present(_ alert: Alert) {
-        // present alert in it's on UIWindow
+        // present alert in a new UIWindow
         let alertWindow = UIWindow(frame: UIScreen.main.bounds)
         alertWindow.rootViewController = UIViewController()
         alertWindow.windowLevel = UIWindowLevelAlert
@@ -141,7 +148,9 @@ class AlertCoordinator: NSObject {
     }
 }
 
-/// Class to construct an alert to be queued for the `AlertCoordinator` to present. Alert adds prority to have high alerts dismiss lower priorty alerts and queue them for a later time.
+/**
+ An `Alert` is an object that hanldes a `UIAlertController` with added features. This class replaces the direct use of `UIAlertContoller`. With an instance of this class display it by enqueueing to an instance of an `AlertCoordinator`.
+ */
 class Alert {
     let title: String?
     let message: String?
@@ -180,21 +189,39 @@ class Alert {
         case low
     }
     
-    init(title: String?, message: String?, priorty: Priorty = .medium, alertActions: [AlertAction]?) {
+    /**
+     Creates and returns an Alert to be used by an `AlertCoordinator`.
+     After creating the Alert actions can be added by appending to the `actions` property.
+     - parameters:
+        - title: The title of the alert. Use this string to get the user’s attention and communicate the reason for the alert.
+        - message: descriptive text that provides additional details about the reason for the alert.
+        - priority: The level of urgency of the alert.
+        - style: The style to use when presenting the alert controller. Use this parameter to configure the alert controller as an action sheet or as a modal alert.
+        - alertActions: Adds actions
+    */
         self.title = title
         self.message = message
         self.prority = priorty
         self.actions = alertActions
     }
     
+    /**
+     Dismiss the alert. Calling dismiss on the `alertController` property will give the same result but this method adds the completion of the alert action to keep the AlertCoordinator in sync.
+     - parameters:
+        - animated: Pass `true` to animate the transition.
+        - completion: The block to execute after the alert is dismissed. This block has no return value and takes no parameters. You may specify nil for this parameter.
+     - important: it is important to call `AlertAction.complete()` on manual of an alert to keep the AlertCoordinator in sync when not using this method. This method does it automatically on completion.
+     */
     func dismiss(_ animated: Bool, completion: (() -> Void)?) {
         alertController.dismiss(animated: true, completion: completion)
     }
 }
 
 /**
- Constructor for an action to add to an `Alert`
- - important: fire `AlertAction.complete()` when your custom action handler is complete
+ The object for encapsulating an action to add to an `Alert`.
+ 
+ Alert Actions coordinate the completion of their task to the main `AlertCoordinator` so that other alerts can display when the encapsulating alert is done running its work. This is done automatically for actions. It can be done manually if finer control is needed for actions that take more time. To manually control the process by initializing an `AlertAction` with false in the `completeOnDismiss` parameter and call `AlertAction.complete()` wherever the alert action completes. If the `AlertCoordinator` can continue to display alerts (not paused and more alerts are queued) then the coordinator will continue to display alerts after the `complete` call.
+ - important: fire `AlertAction.complete()` when your custom action handler is complete on escaping long running tasks
  */
 struct AlertAction {
     let title: String
@@ -202,6 +229,15 @@ struct AlertAction {
     private(set) var actionHandler: ((UIAlertAction) -> Void)?
     let preferred: Bool
     
+    /**
+     Creates an instance of an `AlertAction` to be added to an `Alert`
+     - parameters:
+        - title: The text to use for the button title. The value you specify should be localized for the user’s current language. This parameter must not be nil, except in a tvOS app where a nil title may be used with cancel.
+        - style: Additional styling information to apply to the button. Use the style information to convey the type of action that is performed by the button. For a list of possible values, see the constants in UIAlertActionStyle.
+        - preferred: The preferred action for the user to take from an alert. *NOTE: Only available on iOS 9+
+        - completeOnDismiss: `true` to call `complete` automatically on the action completion. `false` to not add the complete on the action.
+        - actionHandler: A block to execute when the user selects the action. This block has no return value and takes the selected action-object as its only parameter.
+     */
     init(title: String, style: UIAlertActionStyle, preferred: Bool = false, completeOnDismiss: Bool = true, actionHandler: ((UIAlertAction) -> Void)? = nil) {
         self.title = title
         self.style = style
@@ -215,13 +251,20 @@ struct AlertAction {
     }
     
     /**
-     Completes the Alert Action and notifies the `AlertCoordinator` of the completed action
+     Completes a manual Alert action
+     
+     The `AlertCoordinator` will display alerts after if any are queued and the coordinator is not paused.
      */
     static func complete() {
         AlertCoordinator.main.onCurrentAlertDismissed()
     }
     
-    static func defaultAction() -> AlertAction {
-        return AlertAction(title: "Okay", style: .default)
+    /**
+     Creates a default confirmation `AlertAction` with a title of Okay.
+     - parameter preferred: `true` sets the default action preferred *NOTE: Only available on iOS 9+
+     - returns: An AlertAction with default style
+     */
+    static func defaultAction(preferred: Bool = false) -> AlertAction {
+        return AlertAction(title: "Okay", style: .default, preferred: preferred)
     }
 }
