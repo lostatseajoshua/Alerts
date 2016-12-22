@@ -36,7 +36,6 @@ class ViewController: UIViewController {
         textAlert.alertController.addTextField(configurationHandler: nil)
         
         AlertCoordinator.main.enqueue(alert: textAlert)
-        AlertCoordinator.main.pause()
         AlertCoordinator.main.display()
     }
 }
