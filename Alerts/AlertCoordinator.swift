@@ -20,7 +20,7 @@ class AlertCoordinator: NSObject {
     private(set) var highPriorityQueue = [Alert]()
     private(set) var defaultPriorityQueue = [Alert]()
     private(set) var lowPriorityQueue = [Alert]()
-    private(set) var paused = false
+    private(set) var paused = true
  
     private weak var currentDisplayingAlert: Alert? = nil
     
@@ -40,9 +40,8 @@ class AlertCoordinator: NSObject {
     
     /// Show alerts if any are available and the cooridnator is not paused.
     func display() {
-        if !paused {
-            dequeueAlert()
-        }
+        paused = false
+        dequeueAlert()
     }
     
     func pause() {
@@ -55,6 +54,7 @@ class AlertCoordinator: NSObject {
         highPriorityQueue.removeAll()
         defaultPriorityQueue.removeAll()
         lowPriorityQueue.removeAll()
+        paused = true
     }
     
     fileprivate func onCurrentAlertDismissed() {
