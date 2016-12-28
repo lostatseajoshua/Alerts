@@ -47,11 +47,16 @@ class AlertCoordinator: NSObject {
         dequeueAlert()
     }
     
+    /**
+     Stop alerts from being presented.
+     
+     This will not remove any active alerts on display
+     */
     func pause() {
         paused = true
     }
     
-    /// Dismiss any actively displaying alert and remove all from the queue.
+    /// Dismiss any actively displaying alert, remove all alerts from the queue and pause the coordinator
     func reset() {
         removeCurrentDisplayingAlert(force: true, completion: nil)
         highPriorityQueue.removeAll()
