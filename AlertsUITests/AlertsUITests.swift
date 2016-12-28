@@ -30,12 +30,13 @@ class AlertsUITests: XCTestCase {
     
     func testAlerts() {
         let app = XCUIApplication()
-        app.alerts["0"].buttons["Ok"].tap()
-        app.alerts["1"].buttons["Ok"].tap()
-        app.alerts["2"].buttons["Ok"].tap()
+        app.sheets["Action Sheet"].buttons["Okay"].tap()
+        app.alerts["0"].buttons["Okay"].tap()
+        app.alerts["1"].buttons["Okay"].tap()
+        app.alerts["2"].buttons["Okay"].tap()
         app.alerts["3"].buttons["Dispatch"].tap()
-        app.alerts["4"].buttons["Ok"].tap()
-        app.alerts["5"].buttons["Ok"].tap()
+        app.alerts["4"].buttons["Okay"].tap()
+        app.alerts["5"].buttons["Okay"].tap()
         
         let heyAlert = app.alerts["Hey"]
         let heyAlertTextField = heyAlert.collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
