@@ -17,16 +17,20 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         let dispatchAction = AlertAction(title: "Dispatch", style: .default, preferred: true, completeOnDismiss: false) { _ in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 AlertAction.complete()
             }
         }
         
+        let actionSheetAlert = Alert(title: "Action Sheet", message: "What's up", priority: .medium, style: .actionSheet, alertActions: nil)
+        actionSheetAlert.actions.append(.defaultAction())
+        AlertCoordinator.main.enqueue(alert: actionSheetAlert)
+        
         for i in 0...5 {
             let alert = Alert(title: "\(i)", message: "", alertActions: nil)
-            alert.actions = [AlertAction(title: "Ok", style: .default, actionHandler: nil)]
-            alert.actions.append(dispatchAction)
+            alert.actions = [.defaultAction(), dispatchAction]
             
             AlertCoordinator.main.enqueue(alert: alert)
         }
