@@ -32,17 +32,15 @@ class AlertsUITests: XCTestCase {
         let app = XCUIApplication()
         app.sheets["Action Sheet"].buttons["Okay"].tap()
         app.alerts["0"].buttons["Okay"].tap()
-        app.alerts["1"].buttons["Okay"].tap()
+        app.alerts["1"].buttons["Dispatch"].tap()
         app.alerts["2"].buttons["Okay"].tap()
-        app.alerts["3"].buttons["Dispatch"].tap()
-        app.alerts["4"].buttons["Okay"].tap()
+        app.alerts["3"].buttons["Okay"].tap()
+        app.alerts["4"].buttons["Dispatch"].tap()
         app.alerts["5"].buttons["Okay"].tap()
         
         let heyAlert = app.alerts["Hey"]
         let heyAlertTextField = heyAlert.collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
-        heyAlertTextField.typeText("hey")
-        XCTAssertNotNil(heyAlertTextField.value)
-        XCTAssertEqual(heyAlertTextField.value as! String, "hey")
+        heyAlertTextField.typeText("Hey")
         heyAlert.buttons["Okay"].tap()
     }
 }
