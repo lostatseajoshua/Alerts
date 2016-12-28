@@ -20,7 +20,7 @@ class AlertCoordinator: NSObject {
     private(set) var highPriorityQueue = [Alert]()
     private(set) var defaultPriorityQueue = [Alert]()
     private(set) var lowPriorityQueue = [Alert]()
-    private(set) var paused = false
+    private(set) var paused = true
  
     private weak var currentDisplayingAlert: Alert? = nil
     
@@ -31,6 +31,9 @@ class AlertCoordinator: NSObject {
         switch alert.priority {
         case .high:
             highPriorityQueue.insert(alert, at: index ?? highPriorityQueue.endIndex)
+            if !paused {
+                display()
+            }
         case .medium:
             defaultPriorityQueue.insert(alert, at: index ?? defaultPriorityQueue.endIndex)
         case .low:
@@ -38,23 +41,28 @@ class AlertCoordinator: NSObject {
         }
     }
     
-    /// Show alerts if any are available and the cooridnator is not paused.
+    /// Show alerts and unpause coordinator
     func display() {
-        if !paused {
-            dequeueAlert()
-        }
+        paused = false
+        dequeueAlert()
     }
     
+    /**
+     Stop alerts from being presented.
+     
+     This will not remove any active alerts on display
+     */
     func pause() {
         paused = true
     }
     
-    /// Dismiss any actively displaying alert and remove all from the queue.
+    /// Dismiss any actively displaying alert, remove all alerts from the queue and pause the coordinator
     func reset() {
         removeCurrentDisplayingAlert(force: true, completion: nil)
         highPriorityQueue.removeAll()
         defaultPriorityQueue.removeAll()
         lowPriorityQueue.removeAll()
+        paused = true
     }
     
     fileprivate func onCurrentAlertDismissed() {
