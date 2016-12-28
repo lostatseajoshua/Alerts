@@ -41,7 +41,7 @@ class AlertCoordinator: NSObject {
         }
     }
     
-    /// Show alerts if any are available and the cooridnator is not paused.
+    /// Show alerts and unpause coordinator
     func display() {
         paused = false
         dequeueAlert()
