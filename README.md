@@ -15,6 +15,8 @@ Swift 3.0+
 Xcode 8
 iOS 8.0+
 
+# Demo 
+![Demo of alerts app](https://github.com/lostatseajoshua/Alerts/blob/master/public/alerts.gif)
 ## How
 The project is built on three objects: `Alert`, `AlertAction` and `AlertCoordinator`.
 
@@ -44,6 +46,7 @@ let helloWorldAlert = Alert(title: "Hello", message: "World", alertActions: [.de
 AlertCoordinator.main.enqueue(alert: helloWorldAlert)
 AlertCoordinator.main.display()
 ```
+![An alert displaying Hello World message](https://github.com/lostatseajoshua/Alerts/blob/master/public/helloWorldAlert.png)
 
 #### Multiple Alerts
 
