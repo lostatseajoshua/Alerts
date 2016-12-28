@@ -31,6 +31,9 @@ class AlertCoordinator: NSObject {
         switch alert.priority {
         case .high:
             highPriorityQueue.insert(alert, at: index ?? highPriorityQueue.endIndex)
+            if !paused {
+                display()
+            }
         case .medium:
             defaultPriorityQueue.insert(alert, at: index ?? defaultPriorityQueue.endIndex)
         case .low:
