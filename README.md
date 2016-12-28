@@ -38,7 +38,7 @@ Low priority is for alerts that don't need much action and will be dismissed and
 
 ## Code Example
 
-##### Simple alert
+#### Simple alert
 ```swift
 let helloWorldAlert = Alert(title: "Hello", message: "World", alertActions: [.defaultAction()]) // .defaultAction() creates a default confirmation AlertAction with a title of Okay
 AlertCoordinator.main.enqueue(alert: helloWorldAlert)
