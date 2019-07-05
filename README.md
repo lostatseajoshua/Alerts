@@ -1,14 +1,14 @@
 [![Twitter: @alvaradojoshua0](https://img.shields.io/badge/contact-@alvaradojoshua0-blue.svg?style=flat)](https://twitter.com/alvaradojoshua0)
 
 # Alerts
-Alerts manages displaying UIAlertControllers in succession by coordinating them in a queue.
+`Alerts` manages displaying UIAlertControllers in succession by coordinating them in a queue.
 
 ## Motivation
-If you have seen the console log message of:
+The main reason of creating this project was provide a fix for the following console log:
 
-`Warning: Attempt to present UIAlertController: on viewController: which is already presenting` 
+> `Warning: Attempt to present UIAlertController: on viewController: which is already presenting` 
 
-when an alert is presented while there is an active alert displaying, then you understand the case of having a way to coordinate alerts in your application. For an application that heavily relies on alerts, the base implementation of presenting alerts doesn't give enough control. Alerts enables a way to queue up alerts with priority and present your alerts the way you want.
+when presenting multiple alerts. If are aware of this message then you understand the use case of coordinating alerts in your app. Especially in apps that heavily rely on alerts. 
 
 ## Requirements
 Swift 3.0+
