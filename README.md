@@ -11,9 +11,9 @@ The main reason of creating this project was provide a fix for the following con
 when presenting multiple alerts. If are aware of this message then you understand the use case of coordinating alerts in your app. Especially in apps that heavily rely on alerts. 
 
 ## Requirements
-Swift 3.0+
-Xcode 8
-iOS 8.0+
+Swift 5.0+
+Xcode 14
+iOS 11.0+
 
 # Demo 
 ![Demo of alerts app](https://github.com/lostatseajoshua/Alerts/blob/master/public/alerts.gif)

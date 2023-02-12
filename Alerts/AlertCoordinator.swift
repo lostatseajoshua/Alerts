@@ -16,12 +16,13 @@ import UIKit
  
  To use this class enqueue the alerts desired and then call the `display` method to begin the process of displaying the alerts. Use the `pause` method to temporarily hold back alerts from displaying. To tear down the class call the `reset` method and the queue will be emptied.
  */
-class AlertCoordinator: NSObject {
+final class AlertCoordinator {
     private(set) var highPriorityQueue = [Alert]()
     private(set) var defaultPriorityQueue = [Alert]()
     private(set) var lowPriorityQueue = [Alert]()
     private(set) var paused = true
  
+    private let alertWindow = UIWindow(frame: UIScreen.main.bounds)
     private weak var currentDisplayingAlert: Alert? = nil
     
     static let main = AlertCoordinator()
@@ -120,16 +121,17 @@ class AlertCoordinator: NSObject {
     
     private func present(_ alert: Alert) {
         // present alert in a new UIWindow
-        let alertWindow = UIWindow(frame: UIScreen.main.bounds)
         alertWindow.rootViewController = UIViewController()
-        alertWindow.windowLevel = UIWindowLevelAlert
+        alertWindow.windowLevel = .alert
         alertWindow.makeKeyAndVisible()
         alertWindow.rootViewController?.present(alert.alertController, animated: true) {
             self.currentDisplayingAlert = alert
         }
     }
-    
-    override var description: String {
+}
+
+extension AlertCoordinator: CustomDebugStringConvertible, CustomStringConvertible {
+    var description: String {
         let displaying: String
         
         if currentDisplayingAlert != nil {
@@ -143,7 +145,7 @@ class AlertCoordinator: NSObject {
         return "Alert Coordinator is " + displaying + "an alert with \(numOfAlert) alerts queued."
     }
     
-    override var debugDescription: String {
+    var debugDescription: String {
         let displaying: String
         
         if currentDisplayingAlert != nil {
@@ -159,11 +161,11 @@ class AlertCoordinator: NSObject {
 /**
  An `Alert` is an object that hanldes a `UIAlertController` with added features. This class replaces the direct use of `UIAlertContoller`. With an instance of this class display it by enqueueing to an instance of an `AlertCoordinator`.
  */
-class Alert {
+final class Alert {
     let title: String?
     let message: String?
     let priority: Priority
-    let style: UIAlertControllerStyle
+    let style: UIAlertController.Style
     var actions = [AlertAction]()
     
     fileprivate var dismissable: Bool {
@@ -208,7 +210,7 @@ class Alert {
         - style: The style to use when presenting the alert controller. Use this parameter to configure the alert controller as an action sheet or as a modal alert.
         - alertActions: Adds actions
     */
-    init(title: String?, message: String?, priority: Priority = .medium, style: UIAlertControllerStyle = .alert, alertActions: [AlertAction]?) {
+    init(title: String?, message: String?, priority: Priority = .medium, style: UIAlertController.Style = .alert, alertActions: [AlertAction]?) {
         self.title = title
         self.message = message
         self.priority = priority
@@ -241,7 +243,7 @@ class Alert {
  */
 struct AlertAction {
     let title: String
-    let style: UIAlertActionStyle
+    let style: UIAlertAction.Style
     private(set) var actionHandler: ((UIAlertAction) -> Void)?
     let preferred: Bool
     
@@ -254,7 +256,7 @@ struct AlertAction {
         - completeOnDismiss: `true` to call `complete` automatically on the action completion. `false` to not add the complete on the action.
         - actionHandler: A block to execute when the user selects the action. This block has no return value and takes the selected action-object as its only parameter.
      */
-    init(title: String, style: UIAlertActionStyle, preferred: Bool = false, completeOnDismiss: Bool = true, actionHandler: ((UIAlertAction) -> Void)? = nil) {
+    init(title: String, style: UIAlertAction.Style, preferred: Bool = false, completeOnDismiss: Bool = true, actionHandler: ((UIAlertAction) -> Void)? = nil) {
         self.title = title
         self.style = style
         self.preferred = preferred
